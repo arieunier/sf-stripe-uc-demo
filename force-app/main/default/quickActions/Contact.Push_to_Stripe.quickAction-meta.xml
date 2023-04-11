@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flowDefinition>SF2ST_Contact_Save</flowDefinition>
+    <icon>stripeGC__stripe_icon_flowAction</icon>
+    <label>Push to Stripe</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

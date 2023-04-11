@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flowDefinition>SF2ST_Unpaid_Invoice_Items</flowDefinition>
+    <icon>stripeGC__stripe_icon_flowAction</icon>
+    <label>Create a Stripe Invoice</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

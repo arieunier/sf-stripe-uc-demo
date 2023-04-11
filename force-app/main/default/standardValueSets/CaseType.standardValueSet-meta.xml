@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sorted>false</sorted>
+    <standardValue>
+        <fullName>Mechanical</fullName>
+        <default>false</default>
+        <label>Mechanical</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Electrical</fullName>
+        <default>false</default>
+        <label>Electrical</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Electronic</fullName>
+        <default>false</default>
+        <label>Electronic</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Structural</fullName>
+        <default>false</default>
+        <label>Structural</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+        <label>Other</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Early Fraud Warning</fullName>
+        <default>false</default>
+        <label>Early Fraud Warning</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Dispute</fullName>
+        <default>false</default>
+        <label>Dispute</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Review</fullName>
+        <default>false</default>
+        <label>Review</label>
+    </standardValue>
+</StandardValueSet>
