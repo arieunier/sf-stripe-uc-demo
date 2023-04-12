@@ -6,3 +6,6 @@ Run the shell script `deploy.sh` giving in parameter the name of DevHub and a na
 
 # Deployment to Production Org
 After installing properly all connectors, run the shell script `deployToOrg.sh` giving in parameter the name of your org.
+
+# Deployment
+See [video](https://drive.google.com/file/d/1lZ3MnLDeajA6JHnEN7sJAqaK_3WwV9qm/view?usp=share_link) of the deployment

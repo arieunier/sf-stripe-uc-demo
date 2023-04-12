@@ -18,10 +18,15 @@ echo "Creating a new ScratchOrg=$SCRATCHORGALIAS in the developper hub $DEVHUBAL
 sfdx force:org:create -s -f config/project-scratch-def.json -a $SCRATCHORGALIAS
 sfdx force:org:open 
 read -p "------------- Finished, type enter to continue "
+# generating password
+echo "generating a new password for the user (to install packages)"
+sfdx force:user:password:generate --targetusername $SCRATCHORGALIAS
 
 echo "##### WARNING ######"
 echo "before going further, please make sure to   : "
 echo "- install the Stripe Universal Connector"
+echo "SANDBOX  URL -> https://test.salesforce.com/packaging/installPackage.apexp?p0=04t4x000000GI1aAAG "
+echo "Production URL -> https://login.salesforce.com/packaging/installPackage.apexp?p0=04t4x000000GI1aAAG" 
 echo "- install the 2022 class package"
 echo "- configure in the org Person account properly"
 echo "This package will NOT deploy for the moment the SLACK actions as it requires additional configuration on the org side AND that the demo slack account is only valid for 90 days."
@@ -47,4 +52,3 @@ read -p "------------- Finished, type enter to continue "
 echo "------------- Finished, Launching web browser !" 
 sfdx force:org:open 
 read -p "------------- Finished, now work on the Org and come back here to deploy to production " 
-
