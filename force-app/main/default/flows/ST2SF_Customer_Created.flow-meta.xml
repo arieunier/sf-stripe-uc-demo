@@ -638,6 +638,36 @@
         <locationX>50</locationX>
         <locationY>1320</locationY>
         <inputAssignments>
+            <field>BillingCity</field>
+            <value>
+                <elementReference>SYNC_CastToCustomer.address.city</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>BillingCountry</field>
+            <value>
+                <elementReference>SYNC_CastToCustomer.address.country</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>BillingPostalCode</field>
+            <value>
+                <elementReference>SYNC_CastToCustomer.address.postalCode</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>BillingState</field>
+            <value>
+                <elementReference>SYNC_CastToCustomer.address.state</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>BillingStreet</field>
+            <value>
+                <elementReference>SYNC_CastToCustomer.address.line1</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>LastName</field>
             <value>
                 <elementReference>SYNC_CastToCustomer.name</elementReference>

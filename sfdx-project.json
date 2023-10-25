@@ -10,7 +10,6 @@
     }
   ],
   "name": "sfucga",
-  "namespace": "sfucdemoapp",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "56.0"
 }

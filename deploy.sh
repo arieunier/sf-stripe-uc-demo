@@ -15,12 +15,12 @@ DEVHUBALIAS=$2
 
 
 echo "Creating a new ScratchOrg=$SCRATCHORGALIAS in the developper hub $DEVHUBALIAS"
-sfdx force:org:create -s -f config/project-scratch-def.json -a $SCRATCHORGALIAS
-sfdx force:org:open 
+sf org create scratch -a $SCRATCHORGALIAS -f config/project-scratch-def.json -v $DEVHUBALIAS -y 30
+sf org open --target-org $SCRATCHORGALIAS
 read -p "------------- Finished, type enter to continue "
 # generating password
 echo "generating a new password for the user (to install packages)"
-sfdx force:user:password:generate --targetusername $SCRATCHORGALIAS
+sf org generate password --target-org $SCRATCHORGALIAS
 
 echo "##### WARNING ######"
 echo "before going further, please make sure to   : "
@@ -36,7 +36,9 @@ echo "##### WARNING ######"
 read -p "------------- Please type enter to proceed with deployment" 
 
 echo "Pushing all source code to the org $SCRATCHORGALIAS" 
-sfdx force:source:push --forceoverwrite -u $SCRATCHORGALIAS 
+#sf force source deploy start --forceoverwrite --target-org $SCRATCHORGALIAS 
+sf project deploy start --ignore-conflicts --target-org $SCRATCHORGALIAS 
+#sfdx force:source:push --forceoverwrite -u $SCRATCHORGALIAS 
 read -p "------------- Finished, type enter to continue " 
 
 echo "Updating user permissions" 
@@ -45,7 +47,8 @@ do
     echo 'Treating Permission file : '$i
     permissionName=`echo $i | cut -d'.' -f1`
     echo permissionName=$permissionName
-    sfdx force:user:permset:assign -n $permissionName -u $SCRATCHORGALIAS
+    #sf org assign permset -n $permissionName -u $SCRATCHORGALIAS
+    sfdx force:user:permset assign --permesetname $permissionName -u $SCRATCHORGALIAS
 done
 read -p "------------- Finished, type enter to continue " 
 
