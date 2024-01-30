@@ -4,7 +4,7 @@
         <name>createCustomer</name>
         <label>createCustomer</label>
         <locationX>50</locationX>
-        <locationY>638</locationY>
+        <locationY>566</locationY>
         <actionName>stripeGC__v01_CreateCustomers</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -42,7 +42,7 @@
         <name>assignMetadata</name>
         <label>assignMetadata</label>
         <locationX>50</locationX>
-        <locationY>518</locationY>
+        <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>mdataSalesforceRecordId.key</assignToReference>
             <operator>Assign</operator>
@@ -100,7 +100,7 @@
         <name>checkHasStripeCustomerIdEmpty</name>
         <label>checkHasStripeCustomerIdEmpty</label>
         <locationX>182</locationX>
-        <locationY>278</locationY>
+        <locationY>242</locationY>
         <defaultConnector>
             <targetReference>endError</targetReference>
         </defaultConnector>
@@ -149,7 +149,7 @@
         <name>getCurrentContact</name>
         <label>getCurrentContact</label>
         <locationX>182</locationX>
-        <locationY>158</locationY>
+        <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>checkHasStripeCustomerIdEmpty</targetReference>
@@ -170,7 +170,7 @@
         <name>getStripeAccount</name>
         <label>getStripeAccount</label>
         <locationX>50</locationX>
-        <locationY>398</locationY>
+        <locationY>350</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>assignMetadata</targetReference>
@@ -180,12 +180,36 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
+        <name>Update_Account_Number</name>
+        <label>Update Account Number</label>
+        <locationX>50</locationX>
+        <locationY>782</locationY>
+        <connector>
+            <targetReference>endCreation</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>getCurrentContact.Account.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>AccountNumber</field>
+            <value>
+                <elementReference>createCustomer.id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Account</object>
+    </recordUpdates>
+    <recordUpdates>
         <name>updateLocalContact</name>
         <label>updateLocalContact</label>
         <locationX>50</locationX>
-        <locationY>758</locationY>
+        <locationY>674</locationY>
         <connector>
-            <targetReference>endCreation</targetReference>
+            <targetReference>Update_Account_Number</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -207,7 +231,7 @@
         <name>endCreation</name>
         <label>endCreation</label>
         <locationX>50</locationX>
-        <locationY>878</locationY>
+        <locationY>890</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -223,7 +247,7 @@
         <name>endError</name>
         <label>endError</label>
         <locationX>314</locationX>
-        <locationY>398</locationY>
+        <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
