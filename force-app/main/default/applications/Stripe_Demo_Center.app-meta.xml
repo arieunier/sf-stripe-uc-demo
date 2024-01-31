@@ -23,6 +23,7 @@
     <tabs>Unpaid_Invoice_Item__c</tabs>
     <tabs>Stripe_Product__c</tabs>
     <tabs>Stripe_Price__c</tabs>
+    <tabs>Stripe_Payment_Intent__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Stripe_Demo_Center_UtilityBar</utilityBar>
 </CustomApplication>

@@ -59,7 +59,7 @@
             </value>
         </filters>
         <inputAssignments>
-            <field>AccountNumber</field>
+            <field>Stripe_Connected_Account_Id__c</field>
             <value>
                 <elementReference>accountNumber</elementReference>
             </value>
