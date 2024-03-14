@@ -4,7 +4,7 @@
         <name>Copy_1_of_createCheckoutSession</name>
         <label>Copy 1 of createCheckoutSession</label>
         <locationX>314</locationX>
-        <locationY>758</locationY>
+        <locationY>674</locationY>
         <actionName>stripeGC__v01_CreateCheckoutSessions</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -47,7 +47,7 @@
         <name>createCheckoutSession</name>
         <label>createCheckoutSession</label>
         <locationX>50</locationX>
-        <locationY>758</locationY>
+        <locationY>674</locationY>
         <actionName>stripeGC__v01_CreateCheckoutSessions</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -55,7 +55,13 @@
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
-            <name>clientReferenceId</name>
+            <name>accountRecordId</name>
+            <value>
+                <elementReference>getStripeAccount.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>customer</name>
             <value>
                 <elementReference>getCurrent.Stripe_Customer_Id__c</elementReference>
             </value>
@@ -79,12 +85,6 @@
             </value>
         </inputParameters>
         <inputParameters>
-            <name>accountRecordId</name>
-            <value>
-                <elementReference>getStripeAccount.Id</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
             <name>successUrl</name>
             <value>
                 <elementReference>SuccessUrl</elementReference>
@@ -97,7 +97,7 @@
         <name>assignement</name>
         <label>assignement</label>
         <locationX>182</locationX>
-        <locationY>518</locationY>
+        <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>lineItem.priceData.r_currency</assignToReference>
             <operator>Assign</operator>
@@ -169,7 +169,7 @@
         <name>isARegisteredCustomer</name>
         <label>isARegisteredCustomer</label>
         <locationX>182</locationX>
-        <locationY>638</locationY>
+        <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Copy_1_of_createCheckoutSession</targetReference>
         </defaultConnector>
@@ -227,7 +227,7 @@
         <name>getCurrent</name>
         <label>getCurrentContact</label>
         <locationX>182</locationX>
-        <locationY>158</locationY>
+        <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getStripeAccount</targetReference>
@@ -248,7 +248,7 @@
         <name>getStripeAccount</name>
         <label>getStripeAccount</label>
         <locationX>182</locationX>
-        <locationY>278</locationY>
+        <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>screenRequestPayment</targetReference>
@@ -261,7 +261,7 @@
         <name>Copy_1_of_finalScreen</name>
         <label>Copy 1 of finalScreen</label>
         <locationX>314</locationX>
-        <locationY>878</locationY>
+        <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -277,7 +277,7 @@
         <name>finalScreen</name>
         <label>finalScreen</label>
         <locationX>50</locationX>
-        <locationY>878</locationY>
+        <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -293,7 +293,7 @@
         <name>screenRequestPayment</name>
         <label>screenRequestPayment</label>
         <locationX>182</locationX>
-        <locationY>398</locationY>
+        <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>

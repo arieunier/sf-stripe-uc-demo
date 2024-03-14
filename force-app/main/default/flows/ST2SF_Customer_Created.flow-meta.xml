@@ -3,7 +3,7 @@
     <actionCalls>
         <name>ASYNC_CastToCustomer</name>
         <label>ASYNC_CastToCustomer</label>
-        <locationX>1458</locationX>
+        <locationX>1634</locationX>
         <locationY>276</locationY>
         <actionName>stripeGC__v01_CastCustomer</actionName>
         <actionType>apex</actionType>
@@ -22,7 +22,7 @@
     <actionCalls>
         <name>SYNC_CastToCustomer</name>
         <label>SYNC_CastToCustomer</label>
-        <locationX>314</locationX>
+        <locationX>468</locationX>
         <locationY>276</locationY>
         <actionName>stripeGC__v01_CastCustomer</actionName>
         <actionType>apex</actionType>
@@ -41,7 +41,7 @@
     <actionCalls>
         <name>updateCustomer</name>
         <label>updateCustomer</label>
-        <locationX>1326</locationX>
+        <locationX>1502</locationX>
         <locationY>1416</locationY>
         <actionName>stripeGC__v01_UpdateCustomers</actionName>
         <actionType>apex</actionType>
@@ -69,7 +69,7 @@
     <actionCalls>
         <name>updateCustomerCopy</name>
         <label>updateCustomerCopy</label>
-        <locationX>1590</locationX>
+        <locationX>1766</locationX>
         <locationY>1416</locationY>
         <actionName>stripeGC__v01_UpdateCustomers</actionName>
         <actionType>apex</actionType>
@@ -98,7 +98,7 @@
     <assignments>
         <name>assignMetadata</name>
         <label>assignMetadata</label>
-        <locationX>1326</locationX>
+        <locationX>1502</locationX>
         <locationY>1308</locationY>
         <assignmentItems>
             <assignToReference>mdataRecordId.key</assignToReference>
@@ -156,7 +156,7 @@
     <assignments>
         <name>ASYNC_assignInboundCustomerMetadata</name>
         <label>ASYNC_assignInboundCustomerMetadata</label>
-        <locationX>1458</locationX>
+        <locationX>1634</locationX>
         <locationY>384</locationY>
         <assignmentItems>
             <assignToReference>inboundMetadata</assignToReference>
@@ -179,7 +179,7 @@
     <assignments>
         <name>ASYNC_setPersonAccountFalse</name>
         <label>ASYNC_setPersonAccountFalse</label>
-        <locationX>1810</locationX>
+        <locationX>1986</locationX>
         <locationY>708</locationY>
         <assignmentItems>
             <assignToReference>boolIsPersonAccount</assignToReference>
@@ -195,7 +195,7 @@
     <assignments>
         <name>ASYNC_setPersonAccountTrue</name>
         <label>ASYNC_setPersonAccountTrue</label>
-        <locationX>1546</locationX>
+        <locationX>1722</locationX>
         <locationY>708</locationY>
         <assignmentItems>
             <assignToReference>boolIsPersonAccount</assignToReference>
@@ -211,7 +211,7 @@
     <assignments>
         <name>CopyassignMetadata</name>
         <label>CopyassignMetadata</label>
-        <locationX>1590</locationX>
+        <locationX>1766</locationX>
         <locationY>1308</locationY>
         <assignmentItems>
             <assignToReference>mdataRecordId.key</assignToReference>
@@ -269,7 +269,7 @@
     <assignments>
         <name>SYNC_assignInboundCustomerMetadata</name>
         <label>SYNC_assignInboundCustomerMetadata</label>
-        <locationX>314</locationX>
+        <locationX>468</locationX>
         <locationY>384</locationY>
         <assignmentItems>
             <assignToReference>inboundMetadata</assignToReference>
@@ -292,7 +292,7 @@
     <assignments>
         <name>SYNC_SetPersonAccountToFalse</name>
         <label>SYNC_SetPersonAccountToFalse</label>
-        <locationX>666</locationX>
+        <locationX>820</locationX>
         <locationY>708</locationY>
         <assignmentItems>
             <assignToReference>boolIsPersonAccount</assignToReference>
@@ -308,7 +308,7 @@
     <assignments>
         <name>SYNC_SetPersonAccountToTrue</name>
         <label>SYNC_SetPersonAccountToTrue</label>
-        <locationX>402</locationX>
+        <locationX>556</locationX>
         <locationY>708</locationY>
         <assignmentItems>
             <assignToReference>boolIsPersonAccount</assignToReference>
@@ -359,7 +359,7 @@
     <decisions>
         <name>ASYNC_CheckCurrentMetadata</name>
         <label>ASYNC_CheckCurrentMetadata</label>
-        <locationX>1810</locationX>
+        <locationX>1986</locationX>
         <locationY>600</locationY>
         <defaultConnector>
             <targetReference>ASYNC_LoopOnCustomerMetadata</targetReference>
@@ -413,7 +413,7 @@
     <decisions>
         <name>ASYNC_CheckRecordType</name>
         <label>ASYNC_CheckRecordType</label>
-        <locationX>1458</locationX>
+        <locationX>1634</locationX>
         <locationY>984</locationY>
         <defaultConnector>
             <targetReference>getSalesforceContact</targetReference>
@@ -436,9 +436,31 @@
         </rules>
     </decisions>
     <decisions>
+        <name>checkPersonAccountExists</name>
+        <label>checkPersonAccountExists</label>
+        <locationX>182</locationX>
+        <locationY>1308</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Person_Account_already_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>get_Person_Account</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SYNC_CreateSFPersonAccount</targetReference>
+            </connector>
+            <label>Person Account  Does not exist</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>SYNC_CheckCurrentMetadata</name>
         <label>SYNC_CheckCurrentMetadata</label>
-        <locationX>798</locationX>
+        <locationX>952</locationX>
         <locationY>600</locationY>
         <defaultConnector>
             <targetReference>SYNC_LoopOnCustomerMetadata</targetReference>
@@ -508,7 +530,7 @@
     <decisions>
         <name>SYNC_CheckRecordType</name>
         <label>SYNC_CheckRecordType</label>
-        <locationX>314</locationX>
+        <locationX>468</locationX>
         <locationY>984</locationY>
         <defaultConnectorLabel>Other</defaultConnectorLabel>
         <rules>
@@ -562,7 +584,7 @@
     <loops>
         <name>ASYNC_LoopOnCustomerMetadata</name>
         <label>ASYNC_LoopOnCustomerMetadata</label>
-        <locationX>1458</locationX>
+        <locationX>1634</locationX>
         <locationY>492</locationY>
         <collectionReference>inboundMetadata.listAdditionalStringField</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -576,7 +598,7 @@
     <loops>
         <name>SYNC_LoopOnCustomerMetadata</name>
         <label>SYNC_LoopOnCustomerMetadata</label>
-        <locationX>314</locationX>
+        <locationX>468</locationX>
         <locationY>492</locationY>
         <collectionReference>inboundMetadata.listAdditionalStringField</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -609,7 +631,7 @@
     <recordCreates>
         <name>SYNC_createSalesforceContact</name>
         <label>SYNC_createSalesforceContact</label>
-        <locationX>314</locationX>
+        <locationX>490</locationX>
         <locationY>1092</locationY>
         <inputAssignments>
             <field>Email</field>
@@ -636,7 +658,7 @@
         <name>SYNC_CreateSFPersonAccount</name>
         <label>SYNC_CreateSFPersonAccount</label>
         <locationX>50</locationX>
-        <locationY>1200</locationY>
+        <locationY>1416</locationY>
         <inputAssignments>
             <field>AccountNumber</field>
             <value>
@@ -703,7 +725,7 @@
     <recordLookups>
         <name>CopygetStripeAccount</name>
         <label>CopygetStripeAccount</label>
-        <locationX>1590</locationX>
+        <locationX>1766</locationX>
         <locationY>1200</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -714,13 +736,34 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>get_Person_Account</name>
+        <label>get Person Account</label>
+        <locationX>182</locationX>
+        <locationY>1200</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkPersonAccountExists</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Stripe_Customer_Id__pc</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>SYNC_CastToCustomer.id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getPersonAccountId</name>
         <label>getPersonAccountId</label>
-        <locationX>50</locationX>
+        <locationX>182</locationX>
         <locationY>1092</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>SYNC_CreateSFPersonAccount</targetReference>
+            <targetReference>get_Person_Account</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -737,7 +780,7 @@
     <recordLookups>
         <name>getSalesforceContact</name>
         <label>getSalesforceContact</label>
-        <locationX>1590</locationX>
+        <locationX>1766</locationX>
         <locationY>1092</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -758,7 +801,7 @@
     <recordLookups>
         <name>getSalesforcePersonAccount</name>
         <label>getSalesforcePersonAccount</label>
-        <locationX>1326</locationX>
+        <locationX>1502</locationX>
         <locationY>1092</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -779,7 +822,7 @@
     <recordLookups>
         <name>getStripeAccount</name>
         <label>getStripeAccount</label>
-        <locationX>1326</locationX>
+        <locationX>1502</locationX>
         <locationY>1200</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -790,7 +833,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>760</locationX>
+        <locationX>925</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>SYNC_CastToCustomer</targetReference>
