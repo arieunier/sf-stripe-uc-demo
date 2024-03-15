@@ -6,6 +6,7 @@ public without sharing class doctolibOnboarding {
     public static List<String> onboardCustomerOnLimitedPayees(List<String> ids)
     {
         System.debug('flow invoked !');
+        /*
         String country = 'DE';
 
          // Retrieving STripe Context
@@ -120,9 +121,13 @@ public without sharing class doctolibOnboarding {
 
         cont.Stripe_UID__c = accountId;
         update cont;
+        
+
         // upsert
         List<String> resultFlow = new List<String>();
         resultFlow.add(accountId);
         return resultFlow;
+        */
+        return new List<String>();
     }
 }

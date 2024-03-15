@@ -20,6 +20,7 @@ echo "This package will NOT deploy for the moment the SLACK actions as it requir
 echo "We will document it separately".
 echo "##### WARNING ######"
 
+echo "Make sure you have installed the Stripe appexchange and configured person account before going further"
 read -p "------------- Please type enter to proceed with deployment" 
 
 DEVHUBALIAS=$1
