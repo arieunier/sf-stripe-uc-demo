@@ -25,8 +25,11 @@ sf org generate password --target-org $SCRATCHORGALIAS
 echo "##### WARNING ######"
 echo "before going further, please make sure to   : "
 echo "- install the Stripe Universal Connector"
-echo "SANDBOX  URL -> https://test.salesforce.com/packaging/installPackage.apexp?p0=04t4x000000GI1aAAG "
-echo "Production URL -> https://login.salesforce.com/packaging/installPackage.apexp?p0=04t4x000000GI1aAAG" 
+echo "SANDBOX/Scratch org URL -> https://test.salesforce.com/packaging/installPackage.apexp?p0=04tRN0000000CPN "
+echo "Production URL -> https://login.salesforce.com/packaging/installPackage.apexp?p0=04tRN0000000CPN" 
+echo "- install the API Extension"
+echo "SANDBOX/Scratch org URL -> https://test.salesforce.com/packaging/installPackage.apexp?p0=04t4x0000003Mza"
+echo "Production URL -> https://login.salesforce.com/packaging/installPackage.apexp?p0=04t4x0000003Mza" 
 echo "- install the 2022 class package"
 echo "- configure in the org Person account properly"
 echo "This package will NOT deploy for the moment the SLACK actions as it requires additional configuration on the org side AND that the demo slack account is only valid for 90 days."
@@ -48,7 +51,8 @@ do
     permissionName=`echo $i | cut -d'.' -f1`
     echo permissionName=$permissionName
     #sf org assign permset -n $permissionName -u $SCRATCHORGALIAS
-    sfdx force:user:permset assign --permesetname $permissionName -u $SCRATCHORGALIAS
+    # sfdx force:user:permset assign --permesetname $permissionName -u $SCRATCHORGALIAS
+    sf org assign permset --name $permissionName --target-org $SCRATCHORGALIAS
 done
 read -p "------------- Finished, type enter to continue " 
 

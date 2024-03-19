@@ -20,6 +20,11 @@
                 <default>false</default>
                 <label>USD</label>
             </value>
+            <value>
+                <fullName>GBP</fullName>
+                <default>false</default>
+                <label>GBP</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
