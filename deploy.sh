@@ -22,19 +22,30 @@ read -p "------------- Finished, type enter to continue "
 echo "generating a new password for the user (to install packages)"
 sf org generate password --target-org $SCRATCHORGALIAS
 
-echo "##### WARNING ######"
-echo "before going further, please make sure to   : "
-echo "- install the Stripe Universal Connector"
-echo "SANDBOX/Scratch org URL -> https://test.salesforce.com/packaging/installPackage.apexp?p0=04tRN0000000CPN "
-echo "Production URL -> https://login.salesforce.com/packaging/installPackage.apexp?p0=04tRN0000000CPN" 
-echo "- install the API Extension"
-echo "SANDBOX/Scratch org URL -> https://test.salesforce.com/packaging/installPackage.apexp?p0=04t4x0000003Mza"
-echo "Production URL -> https://login.salesforce.com/packaging/installPackage.apexp?p0=04t4x0000003Mza" 
-echo "- install the 2022 class package"
-echo "- configure in the org Person account properly"
-echo "This package will NOT deploy for the moment the SLACK actions as it requires additional configuration on the org side AND that the demo slack account is only valid for 90 days."
-echo "We will document it separately".
-echo "##### WARNING ######"
+echo "##### Installing the Universal Connector package ######"
+sf package install --package 04tRN0000000CPN --target-org  $SCRATCHORGALIAS --no-prompt
+echo "Type enter WHEN YOU RECEIVED the email from Salesforce saying the installation was successfull. It usually takes 5-10 min"
+read -p "------------- Finished, type enter to continue "
+
+echo "##### Installing the API resources ######"
+sf package install --package 04t4x0000003Mza --target-org  $SCRATCHORGALIAS --no-prompt
+echo "Type enter WHEN YOU RECEIVED the email from Salesforce saying the installation was successfull. It usually takes 5-10 min"
+read -p "------------- Finished, type enter to continue "
+
+
+#echo "##### WARNING ######"
+#echo "before going further, please make sure to   : "
+#echo "- install the Stripe Universal Connector"
+#echo "SANDBOX/Scratch org URL -> https://test.salesforce.com/packaging/installPackage.apexp?p0=04tRN0000000CPN "
+#echo "Production URL -> https://login.salesforce.com/packaging/installPackage.apexp?p0=04tRN0000000CPN" 
+#echo "- install the API Extension"
+#echo "SANDBOX/Scratch org URL -> https://test.salesforce.com/packaging/installPackage.apexp?p0=04t4x0000003Mza"
+#echo "Production URL -> https://login.salesforce.com/packaging/installPackage.apexp?p0=04t4x0000003Mza" 
+#echo "- install the 2022 class package"
+#echo "- configure in the org Person account properly"
+#echo "This package will NOT deploy for the moment the SLACK actions as it requires additional configuration on the org side AND that the demo slack account is only valid for 90 days."
+#echo "We will document it separately".
+#echo "##### WARNING ######"
 
 read -p "------------- Please type enter to proceed with deployment" 
 

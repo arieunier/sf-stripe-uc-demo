@@ -341,7 +341,7 @@
         <layout>Opportunity-Opportunity Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>PersonAccount-Présentation du compte personnel</layout>
+        <layout>PersonAccount-Person Account Layout</layout>
         <recordType>PersonAccount.PersonAccount</recordType>
     </layoutAssignments>
     <layoutAssignments>

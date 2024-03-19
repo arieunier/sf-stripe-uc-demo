@@ -1,7 +1,7 @@
 {
   "orgName": "augustin company",
   "edition": "Developer",
-  "features": ["EnableSetPasswordInApi","CPQ"],
+  "features": ["EnableSetPasswordInApi","CPQ","PersonAccounts"],
   "settings": {
     "lightningExperienceSettings": {
       "enableS1DesktopEnabled": true
