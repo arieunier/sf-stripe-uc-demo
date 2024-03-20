@@ -41,7 +41,9 @@
                 <elementReference>SuccessUrl</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_CreateCheckoutSessions</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>createCheckoutSession</name>
@@ -90,7 +92,9 @@
                 <elementReference>SuccessUrl</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_CreateCheckoutSessions</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
@@ -109,7 +113,7 @@
             <assignToReference>lineItem.priceData.unitAmount</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>formulaAmount</elementReference>
+                <elementReference>Line_AmountNbr</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -310,13 +314,15 @@
             <dataType>String</dataType>
             <fieldText>Line Content</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
             <name>Line_AmountNbr</name>
             <dataType>Number</dataType>
-            <fieldText>Line Amount</fieldText>
+            <fieldText>Line Amount (in cents)</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <scale>0</scale>
         </fields>
@@ -326,6 +332,7 @@
             <dataType>String</dataType>
             <fieldText>currency</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -353,6 +360,7 @@
             <dataType>String</dataType>
             <fieldText>Correlation Id</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -375,7 +383,7 @@
             <targetReference>getCurrent</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>CorrelationId</name>
         <dataType>String</dataType>

@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Cast_To_Invoice</name>
         <label>Cast To Invoice</label>
-        <locationX>418</locationX>
+        <locationX>484</locationX>
         <locationY>384</locationY>
         <actionName>stripeGC__v01_CastInvoice</actionName>
         <actionType>apex</actionType>
@@ -17,12 +17,14 @@
                 <elementReference>$Record.stripeGC__Request_Body__c</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_CastInvoice</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>get_Stripe_Customer</name>
         <label>get Stripe Customer</label>
-        <locationX>286</locationX>
+        <locationX>220</locationX>
         <locationY>708</locationY>
         <actionName>stripeGC__v01_GetCustomers</actionName>
         <actionType>apex</actionType>
@@ -42,12 +44,14 @@
                 <elementReference>Cast_To_Invoice.customer</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_GetCustomers</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>get_Stripe_Invoices</name>
         <label>get Stripe Invoices</label>
-        <locationX>286</locationX>
+        <locationX>220</locationX>
         <locationY>816</locationY>
         <actionName>stripeGC__v01_ListInvoices</actionName>
         <actionType>apex</actionType>
@@ -79,7 +83,36 @@
                 <stringValue>paid</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_ListInvoices</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>getSubscription</name>
+        <label>getSubscription</label>
+        <locationX>572</locationX>
+        <locationY>816</locationY>
+        <actionName>stripeGC__v01_GetSubscriptions</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>getOpportunity</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>accountRecordId</name>
+            <value>
+                <elementReference>get_Stripe_Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>subscriptionExposedId</name>
+            <value>
+                <elementReference>Cast_To_Invoice.subscription</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>stripeGC__v01_GetSubscriptions</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <constants>
@@ -92,10 +125,10 @@
     <decisions>
         <name>Check_account_exists</name>
         <label>Check account exists</label>
-        <locationX>418</locationX>
+        <locationX>484</locationX>
         <locationY>600</locationY>
         <defaultConnector>
-            <targetReference>Create_Invoices</targetReference>
+            <targetReference>isASubscription</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Account Exists</defaultConnectorLabel>
         <rules>
@@ -114,13 +147,93 @@
             <label>account does not exist</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>invoiceItemExists</name>
+        <label>invoiceItemExists</label>
+        <locationX>748</locationX>
+        <locationY>1524</locationY>
+        <defaultConnector>
+            <targetReference>Create_Invoices</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>anInvoiceExists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getInvoices.Id</leftValueReference>
+                <operator>WasSet</operator>
+            </conditions>
+            <connector>
+                <targetReference>updateAllInvoices</targetReference>
+            </connector>
+            <label>anInvoiceExists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>isASubscription</name>
+        <label>isASubscription</label>
+        <locationX>748</locationX>
+        <locationY>708</locationY>
+        <defaultConnector>
+            <targetReference>getInvoices</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Cast_To_Invoice.subscription</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>sub_</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getSubscription</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>OpportunityAlreadyCreated</name>
+        <label>OpportunityAlreadyCreated</label>
+        <locationX>572</locationX>
+        <locationY>1032</locationY>
+        <defaultConnector>
+            <targetReference>createOpportunity</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OpportunityCreated</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getOpportunity.Id</leftValueReference>
+                <operator>WasSet</operator>
+            </conditions>
+            <connector>
+                <targetReference>getInvoices</targetReference>
+            </connector>
+            <label>OpportunityCreated</label>
+        </rules>
+    </decisions>
     <environments>Default</environments>
+    <formulas>
+        <name>oppAmount</name>
+        <dataType>Number</dataType>
+        <expression>{!Cast_To_Invoice.amountDue} / 100</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>OpportunityName</name>
+        <dataType>String</dataType>
+        <expression>&apos;Stripe Subscription - &apos; + {!getSubscription.id}</expression>
+    </formulas>
     <interviewLabel>ST2SF - Synchronise Current and past invoices {!$Flow.CurrentDateTime}</interviewLabel>
     <label>ST2SF - Synchronise Current and past invoices</label>
     <loops>
         <name>bulk_create_invoices</name>
         <label>Bulk Create Invoices</label>
-        <locationX>286</locationX>
+        <locationX>220</locationX>
         <locationY>1140</locationY>
         <collectionReference>get_Stripe_Invoices.data</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -150,7 +263,7 @@
     <recordCreates>
         <name>Create_invoice_for_bulk_loop</name>
         <label>Create Invoice for bulk loop</label>
-        <locationX>374</locationX>
+        <locationX>308</locationX>
         <locationY>1248</locationY>
         <connector>
             <targetReference>bulk_create_invoices</targetReference>
@@ -203,8 +316,8 @@
     <recordCreates>
         <name>Create_Invoices</name>
         <label>Create Invoices</label>
-        <locationX>550</locationX>
-        <locationY>708</locationY>
+        <locationX>880</locationX>
+        <locationY>1632</locationY>
         <inputAssignments>
             <field>Account__c</field>
             <value>
@@ -253,7 +366,7 @@
     <recordCreates>
         <name>create_Person_Person_Account</name>
         <label>create Person Account</label>
-        <locationX>286</locationX>
+        <locationX>220</locationX>
         <locationY>1032</locationY>
         <connector>
             <targetReference>bulk_create_invoices</targetReference>
@@ -315,10 +428,57 @@
         <object>Account</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
+    <recordCreates>
+        <name>createOpportunity</name>
+        <label>createOpportunity</label>
+        <locationX>660</locationX>
+        <locationY>1140</locationY>
+        <connector>
+            <targetReference>getInvoices</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>AccountId</field>
+            <value>
+                <elementReference>find_Account.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Amount</field>
+            <value>
+                <elementReference>Cast_To_Invoice.amountDue</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CloseDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>OpportunityName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>StageName</field>
+            <value>
+                <elementReference>OpportunityName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Stripe_Subscription_Id__c</field>
+            <value>
+                <elementReference>getSubscription.id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
     <recordLookups>
         <name>find_Account</name>
         <label>find Account</label>
-        <locationX>418</locationX>
+        <locationX>484</locationX>
         <locationY>492</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -339,7 +499,7 @@
     <recordLookups>
         <name>get_Person_Account_Record_Type_Id</name>
         <label>get Person Account Record Type Id</label>
-        <locationX>286</locationX>
+        <locationX>220</locationX>
         <locationY>924</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -360,7 +520,7 @@
     <recordLookups>
         <name>get_Stripe_Record</name>
         <label>get Stripe Account</label>
-        <locationX>418</locationX>
+        <locationX>484</locationX>
         <locationY>276</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -370,6 +530,69 @@
         <object>stripeGC__Stripe_Account__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>getInvoices</name>
+        <label>getInvoices</label>
+        <locationX>748</locationX>
+        <locationY>1416</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>invoiceItemExists</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Stripe_Invoice_Id__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Cast_To_Invoice.id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Unpaid_Invoice_Item__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getOpportunity</name>
+        <label>getOpportunity</label>
+        <locationX>572</locationX>
+        <locationY>924</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>OpportunityAlreadyCreated</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Stripe_Subscription_Id__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>getSubscription.id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Opportunity</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>updateAllInvoices</name>
+        <label>updateAllInvoices</label>
+        <locationX>616</locationX>
+        <locationY>1632</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Stripe_Invoice_Id__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Cast_To_Invoice.id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>Paid</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Unpaid_Invoice_Item__c</object>
+    </recordUpdates>
     <start>
         <locationX>50</locationX>
         <locationY>0</locationY>
