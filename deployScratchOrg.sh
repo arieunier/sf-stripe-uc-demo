@@ -36,7 +36,7 @@ read -p "------------- Finished, type enter to continue "
 read -p "------------- Please type enter to proceed with deployment" 
 
 echo "Pushing all source code to the org $SCRATCHORGALIAS" 
-sf project deploy start --ignore-conflicts --target-org $SCRATCHORGALIAS 
+sf project deploy start --ignore-conflicts --target-org $SCRATCHORGALIAS  --api-version=60.0
 read -p "------------- Finished, type enter to continue " 
 
 echo "Updating user permissions" 

@@ -38,7 +38,7 @@ read -p "------------- Finished, type enter to continue "
 
 echo "Sending Metadata Api Package to the $DEVHUBALIAS Organisation"
 #sfdx force:mdapi:deploy -d mdapi_output_dir  -u $DEVHUBALIAS -w 3
-sf project deploy start --metadata-dir mdapi_output_dir --target-org $DEVHUBALIAS
+sf project deploy start --metadata-dir mdapi_output_dir --target-org $DEVHUBALIAS --api-version=60.0
 read -p "------------- If not finished, wait before hitting enter by checking status in Deployment Status on SF" 
 
 echo "Updating user permissions" 

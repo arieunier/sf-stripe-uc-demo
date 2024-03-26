@@ -8,7 +8,7 @@ fi
 for var in "$@"
 do
     echo "Deploying changes to --> $var"
-    sf project deploy start --ignore-conflicts --target-org $var
+    sf project deploy start --ignore-conflicts --target-org $var --api-version=60.0
     echo "Updating user permissions" 
 
     for i in `ls force-app/main/default/permissionsets/`
