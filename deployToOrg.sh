@@ -11,10 +11,7 @@ then
 fi
 
 echo "##### WARNING ######"
-echo "before running this command, please make sure that : "
-echo "installed the latest SF unified CLI AND SFDX !! See -> https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_unified.htm "
-echo "- you already installed the Stripe Universal Connector"
-echo "- you configured in the org Person account properly"
+echo "before running this command, please make sure that you configured in the org Person account properly"
 echo "This package will NOT deploy for the moment the SLACK actions as it requires additional configuration on the org side AND that the demo slack account is only valid for 90 days."
 echo "We will document it separately".
 echo "##### WARNING ######"

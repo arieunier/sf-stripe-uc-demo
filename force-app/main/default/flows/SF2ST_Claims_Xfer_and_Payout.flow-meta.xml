@@ -60,7 +60,7 @@
         <inputParameters>
             <name>destination</name>
             <value>
-                <elementReference>getCurrentPersonAccount.AccountNumber</elementReference>
+                <elementReference>getCurrentPersonAccount.Stripe_Connected_Account_Id__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
