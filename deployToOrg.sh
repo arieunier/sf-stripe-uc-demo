@@ -29,16 +29,16 @@ echo "Type enter WHEN YOU RECEIVED the email from Salesforce saying the installa
 read -p "------------- Finished, type enter to continue "
 
 DEVHUBALIAS=$1
-echo "Creating Meta Data api Package"
-rm -rf mdapi_output_dir
-mkdir mdapi_output_dir
-#sfdx force:source:convert -d mdapi_output_dir/ --package-name SFUCDemo
-sf project convert source --root-dir ./force-app/ --output-dir mdapi_output_dir
-read -p "------------- Finished, type enter to continue " 
+
+#echo "Creating Meta Data api Package"
+#rm -rf mdapi_output_dir
+#mkdir mdapi_output_dir
+#sf project convert source --root-dir ./force-app/ --output-dir mdapi_output_dir
+#read -p "------------- Finished, type enter to continue " 
 
 echo "Sending Metadata Api Package to the $DEVHUBALIAS Organisation"
-#sfdx force:mdapi:deploy -d mdapi_output_dir  -u $DEVHUBALIAS -w 3
-sf project deploy start --metadata-dir mdapi_output_dir --target-org $DEVHUBALIAS --api-version=60.0
+#sf project deploy start --metadata-dir mdapi_output_dir --target-org $DEVHUBALIAS --api-version=60.0
+sf project deploy start --ignore-conflicts --target-org $DEVHUBALIAS --api-version=60.0
 read -p "------------- If not finished, wait before hitting enter by checking status in Deployment Status on SF" 
 
 echo "Updating user permissions" 
