@@ -207,8 +207,11 @@
             <name>OpportunityCreated</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>getOpportunity.Id</leftValueReference>
-                <operator>WasSet</operator>
+                <leftValueReference>getOpportunity.Stripe_Subscription_Id__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Cast_To_Invoice.subscription</elementReference>
+                </rightValue>
             </conditions>
             <connector>
                 <targetReference>getInvoices</targetReference>
