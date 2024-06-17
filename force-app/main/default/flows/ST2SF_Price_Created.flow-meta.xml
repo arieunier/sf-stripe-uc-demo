@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Cast_Price</name>
         <label>Cast Price</label>
-        <locationX>182</locationX>
-        <locationY>335</locationY>
+        <locationX>226</locationX>
+        <locationY>323</locationY>
         <actionName>stripeGC__v01_CastPrice</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -17,14 +17,38 @@
                 <elementReference>$Record.stripeGC__Request_Body__c</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_CastPrice</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <decisions>
+        <name>check_if_price_exists</name>
+        <label>check if price exists</label>
+        <locationX>50</locationX>
+        <locationY>755</locationY>
+        <defaultConnector>
+            <targetReference>Create_Price</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getPrice.Stripe_UID__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Cast_Price.id</elementReference>
+                </rightValue>
+            </conditions>
+            <label>exists</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>check_Result</name>
         <label>check Result</label>
-        <locationX>182</locationX>
-        <locationY>575</locationY>
+        <locationX>226</locationX>
+        <locationY>539</locationY>
         <defaultConnectorLabel>No Product</defaultConnectorLabel>
         <rules>
             <name>Product_Exists</name>
@@ -44,7 +68,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Price</targetReference>
+                <targetReference>getPrice</targetReference>
             </connector>
             <label>Product Exists</label>
         </rules>
@@ -79,8 +103,8 @@
     <recordCreates>
         <name>Create_Price</name>
         <label>Create Price</label>
-        <locationX>50</locationX>
-        <locationY>695</locationY>
+        <locationX>138</locationX>
+        <locationY>863</locationY>
         <inputAssignments>
             <field>Currency__c</field>
             <value>
@@ -129,8 +153,8 @@
     <recordLookups>
         <name>get_Related_Product</name>
         <label>get Related Product</label>
-        <locationX>182</locationX>
-        <locationY>455</locationY>
+        <locationX>226</locationX>
+        <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>check_Result</targetReference>
@@ -147,8 +171,30 @@
         <object>Stripe_Product__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <description>getPrice</description>
+        <name>getPrice</name>
+        <label>getPrice</label>
+        <locationX>50</locationX>
+        <locationY>647</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>check_if_price_exists</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Stripe_UID__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Cast_Price.id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Stripe_Price__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <start>
-        <locationX>56</locationX>
+        <locationX>100</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Cast_Price</targetReference>

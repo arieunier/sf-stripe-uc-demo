@@ -10,6 +10,7 @@ then
     exit 1
 fi
 
+DEVHUBALIAS=$1
 echo "##### WARNING ######"
 echo "before running this command, please make sure that you configured in the org Person account properly"
 echo "This package will NOT deploy for the moment the SLACK actions as it requires additional configuration on the org side AND that the demo slack account is only valid for 90 days."
@@ -19,16 +20,15 @@ echo "##### WARNING ######"
 read -p "------------- Please type enter to proceed with deployment" 
 
 echo "##### Installing the Universal Connector package ######"
-sf package install --package 04tRN0000000CPN --target-org  $SCRATCHORGALIAS --no-prompt
+sf package install --package 04tRN0000000CPN --target-org  $DEVHUBALIAS --no-prompt
 echo "Type enter WHEN YOU RECEIVED the email from Salesforce saying the installation was successfull. It usually takes 5-10 min"
 read -p "------------- Finished, type enter to continue "
 
 echo "##### Installing the API resources ######"
-sf package install --package 04t4x0000003Mza --target-org  $SCRATCHORGALIAS --no-prompt
+sf package install --package 04t4x0000003Mza --target-org  $DEVHUBALIAS --no-prompt
 echo "Type enter WHEN YOU RECEIVED the email from Salesforce saying the installation was successfull. It usually takes 5-10 min"
 read -p "------------- Finished, type enter to continue "
 
-DEVHUBALIAS=$1
 
 #echo "Creating Meta Data api Package"
 #rm -rf mdapi_output_dir

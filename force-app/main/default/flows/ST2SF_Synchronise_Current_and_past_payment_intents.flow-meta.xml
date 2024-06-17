@@ -17,7 +17,9 @@
                 <elementReference>$Record.stripeGC__Request_Body__c</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_CastPaymentIntent</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Get_Payment_Intents</name>
@@ -48,7 +50,9 @@
                 <numberValue>100.0</numberValue>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_ListPaymentIntents</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>get_Stripe_Customer</name>
@@ -73,7 +77,9 @@
                 <elementReference>Cast_to_Payment_Intent.customer</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_GetCustomers</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <constants>
@@ -109,6 +115,18 @@
         </rules>
     </decisions>
     <environments>Default</environments>
+    <formulas>
+        <name>priceAmountLoop</name>
+        <dataType>Number</dataType>
+        <expression>{!bulk_create_intents.amountReceived} / 100</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>PriceAmountUnique</name>
+        <dataType>Number</dataType>
+        <expression>{!Cast_to_Payment_Intent.amountReceived} / 100</expression>
+        <scale>2</scale>
+    </formulas>
     <interviewLabel>ST2SF - {!$Flow.CurrentDateTime}</interviewLabel>
     <label>ST2SF - Synchronise Current and Past Payment Intent</label>
     <loops>
@@ -373,5 +391,5 @@
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
 </Flow>
