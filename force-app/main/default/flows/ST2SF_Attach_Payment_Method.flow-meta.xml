@@ -4,7 +4,7 @@
         <name>Cast_to_Payment_Method</name>
         <label>Cast to Payment Method</label>
         <locationX>374</locationX>
-        <locationY>384</locationY>
+        <locationY>276</locationY>
         <actionName>stripeGC__v01_CastPaymentMethod</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -17,13 +17,15 @@
                 <elementReference>$Record.stripeGC__Request_Body__c</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_CastPaymentMethod</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>get_Stripe_Customer</name>
         <label>get Stripe Customer</label>
         <locationX>242</locationX>
-        <locationY>708</locationY>
+        <locationY>600</locationY>
         <actionName>stripeGC__v01_GetCustomers</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -33,7 +35,7 @@
         <inputParameters>
             <name>accountRecordId</name>
             <value>
-                <elementReference>get_Stripe_Record.Id</elementReference>
+                <elementReference>$Record.stripeGC__Stripe_Account__r.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -42,7 +44,9 @@
                 <elementReference>Cast_to_Payment_Method.customer</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_GetCustomers</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <constants>
@@ -56,7 +60,7 @@
         <name>Check_account_exists</name>
         <label>Check account exists</label>
         <locationX>374</locationX>
-        <locationY>600</locationY>
+        <locationY>492</locationY>
         <defaultConnector>
             <targetReference>Update_Account_with_default_PM</targetReference>
         </defaultConnector>
@@ -103,7 +107,7 @@
         <name>create_Person_Person_Account</name>
         <label>create Person Account</label>
         <locationX>242</locationX>
-        <locationY>924</locationY>
+        <locationY>816</locationY>
         <inputAssignments>
             <field>AccountNumber</field>
             <value>
@@ -159,6 +163,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Stripe_Account_Id__pc</field>
+            <value>
+                <elementReference>$Record.stripeGC__Stripe_Account__r.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Stripe_Customer_Id__pc</field>
             <value>
                 <elementReference>get_Stripe_Customer.id</elementReference>
@@ -171,7 +181,7 @@
         <name>find_Account</name>
         <label>find Account</label>
         <locationX>374</locationX>
-        <locationY>492</locationY>
+        <locationY>384</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_account_exists</targetReference>
@@ -192,7 +202,7 @@
         <name>get_Person_Account_Record_Type_Id</name>
         <label>get Person Account Record Type Id</label>
         <locationX>242</locationX>
-        <locationY>816</locationY>
+        <locationY>708</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>create_Person_Person_Account</targetReference>
@@ -209,24 +219,11 @@
         <object>RecordType</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordLookups>
-        <name>get_Stripe_Record</name>
-        <label>get Stripe Account</label>
-        <locationX>374</locationX>
-        <locationY>276</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Cast_to_Payment_Method</targetReference>
-        </connector>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>stripeGC__Stripe_Account__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <recordUpdates>
         <name>Update_Account_with_default_PM</name>
         <label>Update Account with default PM</label>
         <locationX>506</locationX>
-        <locationY>708</locationY>
+        <locationY>600</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>AccountNumber</field>
@@ -258,7 +255,7 @@
         <recordTriggerType>Create</recordTriggerType>
         <scheduledPaths>
             <connector>
-                <targetReference>get_Stripe_Record</targetReference>
+                <targetReference>Cast_to_Payment_Method</targetReference>
             </connector>
             <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>

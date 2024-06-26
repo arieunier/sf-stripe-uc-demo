@@ -4,7 +4,7 @@
         <name>Cast_to_Payment_Intent</name>
         <label>Cast to Payment Intent</label>
         <locationX>418</locationX>
-        <locationY>384</locationY>
+        <locationY>276</locationY>
         <actionName>stripeGC__v01_CastPaymentIntent</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -25,7 +25,7 @@
         <name>Get_Payment_Intents</name>
         <label>Get Payment Intents</label>
         <locationX>286</locationX>
-        <locationY>816</locationY>
+        <locationY>708</locationY>
         <actionName>stripeGC__v01_ListPaymentIntents</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -35,7 +35,7 @@
         <inputParameters>
             <name>accountRecordId</name>
             <value>
-                <elementReference>get_Stripe_Record.Id</elementReference>
+                <elementReference>$Record.stripeGC__Stripe_Account__r.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -58,7 +58,7 @@
         <name>get_Stripe_Customer</name>
         <label>get Stripe Customer</label>
         <locationX>286</locationX>
-        <locationY>708</locationY>
+        <locationY>600</locationY>
         <actionName>stripeGC__v01_GetCustomers</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -68,7 +68,7 @@
         <inputParameters>
             <name>accountRecordId</name>
             <value>
-                <elementReference>get_Stripe_Record.Id</elementReference>
+                <elementReference>$Record.stripeGC__Stripe_Account__r.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -93,7 +93,7 @@
         <name>Check_account_exists</name>
         <label>Check account exists</label>
         <locationX>418</locationX>
-        <locationY>600</locationY>
+        <locationY>492</locationY>
         <defaultConnector>
             <targetReference>Create_Payment_Intent</targetReference>
         </defaultConnector>
@@ -133,7 +133,7 @@
         <name>bulk_create_intents</name>
         <label>Bulk Create Payment Intents</label>
         <locationX>286</locationX>
-        <locationY>1140</locationY>
+        <locationY>1032</locationY>
         <collectionReference>Get_Payment_Intents.data</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -163,7 +163,7 @@
         <name>Create_Payment_Intent</name>
         <label>Create Payment Intent</label>
         <locationX>550</locationX>
-        <locationY>708</locationY>
+        <locationY>600</locationY>
         <inputAssignments>
             <field>Account__c</field>
             <value>
@@ -200,6 +200,12 @@
                 <elementReference>Cast_to_Payment_Intent.status</elementReference>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <field>Stripe_Account_Id__c</field>
+            <value>
+                <elementReference>$Record.stripeGC__Stripe_Account__r.Id</elementReference>
+            </value>
+        </inputAssignments>
         <object>Stripe_Payment_Intent__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
@@ -207,7 +213,7 @@
         <name>Create_payment_intent_in_loop</name>
         <label>Create Payment Intent in Loop</label>
         <locationX>374</locationX>
-        <locationY>1248</locationY>
+        <locationY>1140</locationY>
         <connector>
             <targetReference>bulk_create_intents</targetReference>
         </connector>
@@ -247,6 +253,12 @@
                 <elementReference>bulk_create_intents.status</elementReference>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <field>Stripe_Account_Id__c</field>
+            <value>
+                <elementReference>$Record.stripeGC__Stripe_Account__r.Id</elementReference>
+            </value>
+        </inputAssignments>
         <object>Stripe_Payment_Intent__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
@@ -254,7 +266,7 @@
         <name>create_Person_Person_Account</name>
         <label>create Person Account</label>
         <locationX>286</locationX>
-        <locationY>1032</locationY>
+        <locationY>924</locationY>
         <connector>
             <targetReference>bulk_create_intents</targetReference>
         </connector>
@@ -319,7 +331,7 @@
         <name>find_Account</name>
         <label>find Account</label>
         <locationX>418</locationX>
-        <locationY>492</locationY>
+        <locationY>384</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_account_exists</targetReference>
@@ -340,7 +352,7 @@
         <name>get_Person_Account_Record_Type_Id</name>
         <label>get Person Account Record Type Id</label>
         <locationX>286</locationX>
-        <locationY>924</locationY>
+        <locationY>816</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>create_Person_Person_Account</targetReference>
@@ -355,19 +367,6 @@
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>RecordType</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>get_Stripe_Record</name>
-        <label>get Stripe Account</label>
-        <locationX>418</locationX>
-        <locationY>276</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Cast_to_Payment_Intent</targetReference>
-        </connector>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>stripeGC__Stripe_Account__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
@@ -385,11 +384,11 @@
         <recordTriggerType>Create</recordTriggerType>
         <scheduledPaths>
             <connector>
-                <targetReference>get_Stripe_Record</targetReference>
+                <targetReference>Cast_to_Payment_Intent</targetReference>
             </connector>
             <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
 </Flow>

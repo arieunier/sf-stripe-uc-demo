@@ -4,7 +4,7 @@
         <name>create_Product</name>
         <label>create Product</label>
         <locationX>176</locationX>
-        <locationY>350</locationY>
+        <locationY>458</locationY>
         <actionName>stripeGC__v01_CreateProducts</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -17,7 +17,7 @@
         <inputParameters>
             <name>accountRecordId</name>
             <value>
-                <elementReference>getStripeAccount.Id</elementReference>
+                <elementReference>SelectedAccount.firstSelectedRow.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -81,9 +81,9 @@
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>create_Product</targetReference>
+            <targetReference>Account_Selection</targetReference>
         </connector>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>stripeGC__Stripe_Account__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
@@ -91,7 +91,7 @@
         <name>update_Current_Record</name>
         <label>update Current Record</label>
         <locationX>176</locationX>
-        <locationY>458</locationY>
+        <locationY>566</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -101,6 +101,12 @@
             </value>
         </filters>
         <inputAssignments>
+            <field>Stripe_Account_Id__c</field>
+            <value>
+                <elementReference>SelectedAccount.firstSelectedRow.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Stripe_UID__c</field>
             <value>
                 <elementReference>create_Product.id</elementReference>
@@ -109,10 +115,83 @@
         <object>Stripe_Product__c</object>
     </recordUpdates>
     <screens>
+        <name>Account_Selection</name>
+        <label>Account Selection</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>create_Product</targetReference>
+        </connector>
+        <fields>
+            <name>DspText</name>
+            <fieldText>&lt;p&gt;Please select the Stripe Account to send the data to.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>SelectedAccount</name>
+            <dataTypeMappings>
+                <typeName>T</typeName>
+                <typeValue>stripeGC__Stripe_Account__c</typeValue>
+            </dataTypeMappings>
+            <extensionName>flowruntime:datatable</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Data Table</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>selectionMode</name>
+                <value>
+                    <stringValue>SINGLE_SELECT</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>minRowSelection</name>
+                <value>
+                    <numberValue>1.0</numberValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>tableData</name>
+                <value>
+                    <elementReference>getStripeAccount</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>maxRowSelection</name>
+                <value>
+                    <numberValue>1.0</numberValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>selectedRows</name>
+                <value>
+                    <elementReference>getStripeAccount</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columns</name>
+                <value>
+                    <stringValue>[{&quot;apiName&quot;:&quot;Name&quot;,&quot;guid&quot;:&quot;column-d8b5&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:0,&quot;label&quot;:&quot;Stripe Account Name&quot;,&quot;type&quot;:&quot;text&quot;}]</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
         <name>displayError</name>
         <label>displayError</label>
         <locationX>440</locationX>
-        <locationY>458</locationY>
+        <locationY>566</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>

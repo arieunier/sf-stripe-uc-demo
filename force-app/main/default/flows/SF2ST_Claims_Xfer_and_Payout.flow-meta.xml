@@ -4,14 +4,14 @@
         <name>Payout_funds_POST_payouts</name>
         <label>Payout funds (POST /payouts</label>
         <locationX>176</locationX>
-        <locationY>566</locationY>
+        <locationY>458</locationY>
         <actionName>stripeGC__v01_CreatePayouts</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
             <name>accountRecordId</name>
             <value>
-                <elementReference>getCurrentStripeAccount.Id</elementReference>
+                <elementReference>getCurrentPersonAccount.Stripe_Account_Id__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -26,13 +26,15 @@
                 <stringValue>eur</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_CreatePayouts</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Transfer_funds_post_Transfers</name>
         <label>Transfer funds (post /Transfers</label>
         <locationX>176</locationX>
-        <locationY>458</locationY>
+        <locationY>350</locationY>
         <actionName>stripeGC__v01_CreateTransfers</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -42,7 +44,7 @@
         <inputParameters>
             <name>accountRecordId</name>
             <value>
-                <elementReference>getCurrentStripeAccount.Id</elementReference>
+                <elementReference>getCurrentPersonAccount.Stripe_Account_Id__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -69,7 +71,9 @@
                 <stringValue>eur</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_CreateTransfers</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <environments>Default</environments>
@@ -101,7 +105,7 @@
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>getCurrentStripeAccount</targetReference>
+            <targetReference>Claims_Payout_Start</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -115,24 +119,11 @@
         <object>Account</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordLookups>
-        <name>getCurrentStripeAccount</name>
-        <label>getCurrentStripeAccount</label>
-        <locationX>176</locationX>
-        <locationY>242</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Claims_Payout_Start</targetReference>
-        </connector>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>stripeGC__Stripe_Account__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <screens>
         <name>Claims_Payout_Start</name>
         <label>Claims Payout Start</label>
         <locationX>176</locationX>
-        <locationY>350</locationY>
+        <locationY>242</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -148,6 +139,7 @@
             <name>entryNumber</name>
             <dataType>Number</dataType>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <scale>0</scale>
         </fields>
@@ -160,6 +152,7 @@
             <name>entryDescription</name>
             <dataType>String</dataType>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>

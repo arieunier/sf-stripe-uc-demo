@@ -21,6 +21,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Account.Stripe_Account_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Account.Stripe_Connected_Account_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -32,6 +37,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Stripe_PI_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Stripe_Account_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -131,6 +141,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Stripe_Payment_Intent__c.Stripe_Account_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Stripe_Price__c.Currency__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -151,12 +166,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Stripe_Price__c.Stripe_Account_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Stripe_Price__c.Stripe_Product__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Stripe_Price__c.Stripe_UID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Stripe_Product__c.Stripe_Account_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -187,6 +212,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Unpaid_Invoice_Item__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Unpaid_Invoice_Item__c.Stripe_Account_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

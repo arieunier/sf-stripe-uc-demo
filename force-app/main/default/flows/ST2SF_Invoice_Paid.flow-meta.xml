@@ -4,7 +4,7 @@
         <name>castToInvoice</name>
         <label>castToInvoice</label>
         <locationX>182</locationX>
-        <locationY>335</locationY>
+        <locationY>323</locationY>
         <actionName>stripeGC__v01_CastInvoice</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -17,7 +17,9 @@
                 <elementReference>$Record.stripeGC__Request_Body__c</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_CastInvoice</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <constants>
@@ -38,7 +40,7 @@
         <name>checkStatus</name>
         <label>checkStatus</label>
         <locationX>182</locationX>
-        <locationY>455</locationY>
+        <locationY>431</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>invoicePaidTrue</name>
@@ -70,7 +72,7 @@
         <name>forEachUnpaidInvoiceItems</name>
         <label>forEachUnpaidInvoiceItems</label>
         <locationX>50</locationX>
-        <locationY>695</locationY>
+        <locationY>647</locationY>
         <collectionReference>getRelatedInvoiceItems</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -100,7 +102,7 @@
         <name>getRelatedInvoiceItems</name>
         <label>getRelatedInvoiceItems</label>
         <locationX>50</locationX>
-        <locationY>575</locationY>
+        <locationY>539</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>forEachUnpaidInvoiceItems</targetReference>
@@ -121,7 +123,7 @@
         <name>updateUnpaidInvoiceItems</name>
         <label>updateUnpaidInvoiceItems</label>
         <locationX>138</locationX>
-        <locationY>815</locationY>
+        <locationY>755</locationY>
         <connector>
             <targetReference>forEachUnpaidInvoiceItems</targetReference>
         </connector>
@@ -137,6 +139,12 @@
             <field>Status__c</field>
             <value>
                 <stringValue>Paid</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Stripe_Account_Id__c</field>
+            <value>
+                <elementReference>$Record.stripeGC__Stripe_Account__r.Id</elementReference>
             </value>
         </inputAssignments>
         <object>Unpaid_Invoice_Item__c</object>

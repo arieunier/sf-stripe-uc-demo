@@ -4,7 +4,7 @@
         <name>createPrice</name>
         <label>createPrice</label>
         <locationX>176</locationX>
-        <locationY>458</locationY>
+        <locationY>350</locationY>
         <actionName>stripeGC__v01_CreatePrices</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -17,7 +17,7 @@
         <inputParameters>
             <name>accountRecordId</name>
             <value>
-                <elementReference>getStripeAccount.Id</elementReference>
+                <elementReference>getStripePrice.Stripe_Product__r.Stripe_Account_Id__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -53,7 +53,7 @@
         <name>createStripeGC_Recurring</name>
         <label>createStripeGC__Recurring</label>
         <locationX>176</locationX>
-        <locationY>350</locationY>
+        <locationY>242</locationY>
         <assignmentItems>
             <assignToReference>RecurringContent.interval</assignToReference>
             <operator>Assign</operator>
@@ -118,26 +118,13 @@
     </processMetadataValues>
     <processType>Flow</processType>
     <recordLookups>
-        <name>getStripeAccount</name>
-        <label>getStripeAccount</label>
-        <locationX>176</locationX>
-        <locationY>242</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>createStripeGC_Recurring</targetReference>
-        </connector>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>stripeGC__Stripe_Account__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
         <name>getStripePrice</name>
         <label>getStripePrice</label>
         <locationX>176</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>getStripeAccount</targetReference>
+            <targetReference>createStripeGC_Recurring</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -155,7 +142,7 @@
         <name>UpdatePrice</name>
         <label>UpdatePrice</label>
         <locationX>176</locationX>
-        <locationY>566</locationY>
+        <locationY>458</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -164,6 +151,12 @@
                 <elementReference>getStripePrice.Id</elementReference>
             </value>
         </filters>
+        <inputAssignments>
+            <field>Stripe_Account_Id__c</field>
+            <value>
+                <elementReference>getStripePrice.Stripe_Product__r.Stripe_Account_Id__c</elementReference>
+            </value>
+        </inputAssignments>
         <inputAssignments>
             <field>Stripe_UID__c</field>
             <value>
@@ -176,7 +169,7 @@
         <name>Error_when_creating_product</name>
         <label>Error when creating product</label>
         <locationX>440</locationX>
-        <locationY>566</locationY>
+        <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>

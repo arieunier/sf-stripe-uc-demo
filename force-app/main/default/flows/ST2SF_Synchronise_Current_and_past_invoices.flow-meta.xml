@@ -4,7 +4,7 @@
         <name>Cast_To_Invoice</name>
         <label>Cast To Invoice</label>
         <locationX>484</locationX>
-        <locationY>384</locationY>
+        <locationY>276</locationY>
         <actionName>stripeGC__v01_CastInvoice</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -25,7 +25,7 @@
         <name>get_Stripe_Customer</name>
         <label>get Stripe Customer</label>
         <locationX>220</locationX>
-        <locationY>708</locationY>
+        <locationY>600</locationY>
         <actionName>stripeGC__v01_GetCustomers</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -35,7 +35,7 @@
         <inputParameters>
             <name>accountRecordId</name>
             <value>
-                <elementReference>get_Stripe_Record.Id</elementReference>
+                <elementReference>$Record.stripeGC__Stripe_Account__r.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -52,7 +52,7 @@
         <name>get_Stripe_Invoices</name>
         <label>get Stripe Invoices</label>
         <locationX>220</locationX>
-        <locationY>816</locationY>
+        <locationY>708</locationY>
         <actionName>stripeGC__v01_ListInvoices</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -62,7 +62,7 @@
         <inputParameters>
             <name>accountRecordId</name>
             <value>
-                <elementReference>get_Stripe_Record.Id</elementReference>
+                <elementReference>$Record.stripeGC__Stripe_Account__r.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -91,7 +91,7 @@
         <name>getSubscription</name>
         <label>getSubscription</label>
         <locationX>572</locationX>
-        <locationY>816</locationY>
+        <locationY>708</locationY>
         <actionName>stripeGC__v01_GetSubscriptions</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -101,7 +101,7 @@
         <inputParameters>
             <name>accountRecordId</name>
             <value>
-                <elementReference>get_Stripe_Record.Id</elementReference>
+                <elementReference>$Record.stripeGC__Stripe_Account__r.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -126,7 +126,7 @@
         <name>Check_account_exists</name>
         <label>Check account exists</label>
         <locationX>484</locationX>
-        <locationY>600</locationY>
+        <locationY>492</locationY>
         <defaultConnector>
             <targetReference>isASubscription</targetReference>
         </defaultConnector>
@@ -151,7 +151,7 @@
         <name>invoiceItemExists</name>
         <label>invoiceItemExists</label>
         <locationX>748</locationX>
-        <locationY>1524</locationY>
+        <locationY>1416</locationY>
         <defaultConnector>
             <targetReference>Create_Invoices</targetReference>
         </defaultConnector>
@@ -173,7 +173,7 @@
         <name>isASubscription</name>
         <label>isASubscription</label>
         <locationX>748</locationX>
-        <locationY>708</locationY>
+        <locationY>600</locationY>
         <defaultConnector>
             <targetReference>getInvoices</targetReference>
         </defaultConnector>
@@ -198,7 +198,7 @@
         <name>OpportunityAlreadyCreated</name>
         <label>OpportunityAlreadyCreated</label>
         <locationX>572</locationX>
-        <locationY>1032</locationY>
+        <locationY>924</locationY>
         <defaultConnector>
             <targetReference>createOpportunity</targetReference>
         </defaultConnector>
@@ -237,7 +237,7 @@
         <name>bulk_create_invoices</name>
         <label>Bulk Create Invoices</label>
         <locationX>220</locationX>
-        <locationY>1140</locationY>
+        <locationY>1032</locationY>
         <collectionReference>get_Stripe_Invoices.data</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -267,7 +267,7 @@
         <name>Create_invoice_for_bulk_loop</name>
         <label>Create Invoice for bulk loop</label>
         <locationX>308</locationX>
-        <locationY>1248</locationY>
+        <locationY>1140</locationY>
         <connector>
             <targetReference>bulk_create_invoices</targetReference>
         </connector>
@@ -302,6 +302,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Stripe_Account_Id__c</field>
+            <value>
+                <elementReference>$Record.stripeGC__Stripe_Account__r.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Stripe_Invoice_Id__c</field>
             <value>
                 <elementReference>bulk_create_invoices.id</elementReference>
@@ -320,7 +326,7 @@
         <name>Create_Invoices</name>
         <label>Create Invoices</label>
         <locationX>880</locationX>
-        <locationY>1632</locationY>
+        <locationY>1524</locationY>
         <inputAssignments>
             <field>Account__c</field>
             <value>
@@ -352,6 +358,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Stripe_Account_Id__c</field>
+            <value>
+                <elementReference>$Record.stripeGC__Stripe_Account__r.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Stripe_Invoice_Id__c</field>
             <value>
                 <elementReference>Cast_To_Invoice.id</elementReference>
@@ -370,7 +382,7 @@
         <name>create_Person_Person_Account</name>
         <label>create Person Account</label>
         <locationX>220</locationX>
-        <locationY>1032</locationY>
+        <locationY>924</locationY>
         <connector>
             <targetReference>bulk_create_invoices</targetReference>
         </connector>
@@ -423,6 +435,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Stripe_Account_Id__c</field>
+            <value>
+                <elementReference>$Record.stripeGC__Stripe_Account__r.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Stripe_Customer_Id__pc</field>
             <value>
                 <elementReference>get_Stripe_Customer.id</elementReference>
@@ -435,7 +453,7 @@
         <name>createOpportunity</name>
         <label>createOpportunity</label>
         <locationX>660</locationX>
-        <locationY>1140</locationY>
+        <locationY>1032</locationY>
         <connector>
             <targetReference>getInvoices</targetReference>
         </connector>
@@ -482,7 +500,7 @@
         <name>find_Account</name>
         <label>find Account</label>
         <locationX>484</locationX>
-        <locationY>492</locationY>
+        <locationY>384</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_account_exists</targetReference>
@@ -503,7 +521,7 @@
         <name>get_Person_Account_Record_Type_Id</name>
         <label>get Person Account Record Type Id</label>
         <locationX>220</locationX>
-        <locationY>924</locationY>
+        <locationY>816</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>create_Person_Person_Account</targetReference>
@@ -521,23 +539,10 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>get_Stripe_Record</name>
-        <label>get Stripe Account</label>
-        <locationX>484</locationX>
-        <locationY>276</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Cast_To_Invoice</targetReference>
-        </connector>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>stripeGC__Stripe_Account__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
         <name>getInvoices</name>
         <label>getInvoices</label>
         <locationX>748</locationX>
-        <locationY>1416</locationY>
+        <locationY>1308</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>invoiceItemExists</targetReference>
@@ -558,7 +563,7 @@
         <name>getOpportunity</name>
         <label>getOpportunity</label>
         <locationX>572</locationX>
-        <locationY>924</locationY>
+        <locationY>816</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>OpportunityAlreadyCreated</targetReference>
@@ -579,7 +584,7 @@
         <name>updateAllInvoices</name>
         <label>updateAllInvoices</label>
         <locationX>616</locationX>
-        <locationY>1632</locationY>
+        <locationY>1524</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Stripe_Invoice_Id__c</field>
@@ -611,7 +616,7 @@
         <recordTriggerType>Create</recordTriggerType>
         <scheduledPaths>
             <connector>
-                <targetReference>get_Stripe_Record</targetReference>
+                <targetReference>Cast_To_Invoice</targetReference>
             </connector>
             <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>

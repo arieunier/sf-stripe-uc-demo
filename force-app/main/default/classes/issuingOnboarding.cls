@@ -9,15 +9,18 @@ public without sharing class issuingOnboarding {
     {
         System.debug('flow invoked !');
         String country = 'FR';
-
+        System.debug('Ids received =>' + ids);
          // Retrieving STripe Context
-    	stripeGC__Stripe_Account__c stripeAccount = [ Select Id, stripeGC__Stripe_Account_Id__c from stripeGC__Stripe_Account__c LIMIT 1 ];
-        String stripeId = stripeAccount.Id;                
-        System.debug('Stripe context is => ' + stripeId);
+    	//stripeGC__Stripe_Account__c stripeAccount = [ Select Id, stripeGC__Stripe_Account_Id__c from stripeGC__Stripe_Account__c LIMIT 1 ];
+        //String stripeId = stripeAccount.Id;                
+        String stripeId = '';
         
+        String[] VarIds = ids[0].split(',');
         
-        String recordId =  ids[0]; //'0010700000lWdSdAAK'; //  '0035I000003vQLxQAM'; // ids[0] ; //'0010700000j5f7wAAA';
+        String recordId =  VarIds[0]; //'0010700000lWdSdAAK'; //  '0035I000003vQLxQAM'; // ids[0] ; //'0010700000j5f7wAAA';
+        stripeId = VarIds[1];
         System.debug('RecordId context is => ' + recordId);
+        System.debug('Stripe context is => ' + stripeId);
         // get account
         Account cont = [ select id, AccountNumber, name, firstname, lastname, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Stripe_Customer_Id__pc FROM Account where id = :recordId LIMIT 1];
         if (cont.BillingCountry == 'Germany')

@@ -7,12 +7,15 @@ public with sharing class lpOnbarding {
     {
         System.debug('flow invoked !');
          // Retrieving STripe Context
-		stripeGC__Stripe_Account__c stripeAccount = [ Select Id, stripeGC__Stripe_Account_Id__c from stripeGC__Stripe_Account__c LIMIT 1 ];
-        String stripeId = stripeAccount.Id;                
-        System.debug('Stripe context is => ' + stripeId);
+		// stripeGC__Stripe_Account__c stripeAccount = [ Select Id, stripeGC__Stripe_Account_Id__c from stripeGC__Stripe_Account__c LIMIT 1 ];
+        // String stripeId = stripeAccount.Id;                
+        // System.debug('Stripe context is => ' + stripeId);
+        System.debug('Ids received =>' + ids);
+        String[] VarIds = ids[0].split(',');
+
+        String recordId = VarIds[0] ; //'0010700000j5f7wAAA';
+        String stripeId = VarIds[1] ;
         
-        
-        String recordId = ids[0] ; //'0010700000j5f7wAAA';
         // get account
         Account act = [ select id, AccountNumber, name, firstname, lastname, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Stripe_Customer_Id__pc FROM account where id= :recordId LIMIT 1];
         System.debug('Treating Id=' + act.Id + ' / Name=' + act.Name);

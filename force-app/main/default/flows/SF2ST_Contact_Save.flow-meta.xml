@@ -4,13 +4,19 @@
         <name>createCustomer</name>
         <label>createCustomer</label>
         <locationX>50</locationX>
-        <locationY>566</locationY>
+        <locationY>674</locationY>
         <actionName>stripeGC__v01_CreateCustomers</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>updateLocalContact</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>accountRecordId</name>
+            <value>
+                <elementReference>StripeAccountDataTable.firstSelectedRow.Id</elementReference>
+            </value>
+        </inputParameters>
         <inputParameters>
             <name>email</name>
             <value>
@@ -29,20 +35,16 @@
                 <elementReference>fullName</elementReference>
             </value>
         </inputParameters>
-        <inputParameters>
-            <name>accountRecordId</name>
-            <value>
-                <elementReference>getStripeAccount.Id</elementReference>
-            </value>
-        </inputParameters>
+        <nameSegment>stripeGC__v01_CreateCustomers</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
         <name>assignMetadata</name>
         <label>assignMetadata</label>
         <locationX>50</locationX>
-        <locationY>458</locationY>
+        <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>mdataSalesforceRecordId.key</assignToReference>
             <operator>Assign</operator>
@@ -173,9 +175,9 @@
         <locationY>350</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>assignMetadata</targetReference>
+            <targetReference>select_Stripe_Account</targetReference>
         </connector>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>stripeGC__Stripe_Account__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
@@ -183,7 +185,7 @@
         <name>Update_Account_Number</name>
         <label>Update Account Number</label>
         <locationX>50</locationX>
-        <locationY>782</locationY>
+        <locationY>890</locationY>
         <connector>
             <targetReference>endCreation</targetReference>
         </connector>
@@ -207,7 +209,7 @@
         <name>updateLocalContact</name>
         <label>updateLocalContact</label>
         <locationX>50</locationX>
-        <locationY>674</locationY>
+        <locationY>782</locationY>
         <connector>
             <targetReference>Update_Account_Number</targetReference>
         </connector>
@@ -220,6 +222,12 @@
             </value>
         </filters>
         <inputAssignments>
+            <field>Stripe_Account_Id__c</field>
+            <value>
+                <elementReference>StripeAccountDataTable.firstSelectedRow.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Stripe_Customer_Id__c</field>
             <value>
                 <elementReference>createCustomer.id</elementReference>
@@ -231,7 +239,7 @@
         <name>endCreation</name>
         <label>endCreation</label>
         <locationX>50</locationX>
-        <locationY>890</locationY>
+        <locationY>998</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -255,6 +263,79 @@
             <name>errorText</name>
             <fieldText>&lt;p&gt;Stripe Synchronisation did not complete: this contact has already a StripeCustomerId ({!getCurrentContact.Stripe_Customer_Id__c}&lt;/p&gt;&lt;p&gt;Please edit the record and re run the action.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>select_Stripe_Account</name>
+        <label>select Stripe Account</label>
+        <locationX>50</locationX>
+        <locationY>458</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>assignMetadata</targetReference>
+        </connector>
+        <fields>
+            <name>textStripeAccount</name>
+            <fieldText>&lt;p&gt;Please select the Stripe Account to send the data to.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>StripeAccountDataTable</name>
+            <dataTypeMappings>
+                <typeName>T</typeName>
+                <typeValue>stripeGC__Stripe_Account__c</typeValue>
+            </dataTypeMappings>
+            <extensionName>flowruntime:datatable</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Stripe Accounts</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>selectionMode</name>
+                <value>
+                    <stringValue>SINGLE_SELECT</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>minRowSelection</name>
+                <value>
+                    <numberValue>1.0</numberValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>shouldDisplayLabel</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>maxRowSelection</name>
+                <value>
+                    <numberValue>1.0</numberValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>tableData</name>
+                <value>
+                    <elementReference>getStripeAccount</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columns</name>
+                <value>
+                    <stringValue>[{&quot;apiName&quot;:&quot;Name&quot;,&quot;guid&quot;:&quot;column-417d&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:0,&quot;label&quot;:&quot;Stripe Account Name&quot;,&quot;type&quot;:&quot;text&quot;}]</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>

@@ -4,13 +4,19 @@
         <name>createSubscription</name>
         <label>createSubscription</label>
         <locationX>176</locationX>
-        <locationY>528</locationY>
+        <locationY>384</locationY>
         <actionName>stripeGC__v01_CreateSubscriptions</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>update_Opportunity</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>accountRecordId</name>
+            <value>
+                <elementReference>$Record.Contact__r.Stripe_Account_Id__c</elementReference>
+            </value>
+        </inputParameters>
         <inputParameters>
             <name>collectionMethod</name>
             <value>
@@ -35,42 +41,40 @@
                 <elementReference>listSubscriptionItems</elementReference>
             </value>
         </inputParameters>
-        <inputParameters>
-            <name>accountRecordId</name>
-            <value>
-                <elementReference>getStripeAccount.Id</elementReference>
-            </value>
-        </inputParameters>
+        <nameSegment>stripeGC__v01_CreateSubscriptions</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>send_Invoice</name>
         <label>send Invoice</label>
         <locationX>440</locationX>
-        <locationY>408</locationY>
+        <locationY>276</locationY>
         <actionName>stripeGC__v01_PostInvoicesSend</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>accountRecordId</name>
+            <value>
+                <elementReference>$Record.Contact__r.Stripe_Account_Id__c</elementReference>
+            </value>
+        </inputParameters>
         <inputParameters>
             <name>invoice</name>
             <value>
                 <elementReference>$Record.Stripe_Latest_Invoice__c</elementReference>
             </value>
         </inputParameters>
-        <inputParameters>
-            <name>accountRecordId</name>
-            <value>
-                <elementReference>getStripeAccountDelayed.Id</elementReference>
-            </value>
-        </inputParameters>
+        <nameSegment>stripeGC__v01_PostInvoicesSend</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
         <name>assign</name>
         <label>assign</label>
         <locationX>176</locationX>
-        <locationY>408</locationY>
+        <locationY>276</locationY>
         <assignmentItems>
             <assignToReference>singleSubscription.price</assignToReference>
             <operator>Assign</operator>
@@ -118,37 +122,11 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordLookups>
-        <name>getStripeAccount</name>
-        <label>getStripeAccount</label>
-        <locationX>176</locationX>
-        <locationY>288</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>assign</targetReference>
-        </connector>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>stripeGC__Stripe_Account__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>getStripeAccountDelayed</name>
-        <label>getStripeAccountDelayed</label>
-        <locationX>440</locationX>
-        <locationY>288</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>send_Invoice</targetReference>
-        </connector>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>stripeGC__Stripe_Account__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <recordUpdates>
         <name>update_Opportunity</name>
         <label>update Opportunity</label>
         <locationX>176</locationX>
-        <locationY>648</locationY>
+        <locationY>492</locationY>
         <inputAssignments>
             <field>Stripe_Latest_Invoice__c</field>
             <value>
@@ -179,14 +157,14 @@
         <recordTriggerType>Update</recordTriggerType>
         <scheduledPaths>
             <connector>
-                <targetReference>getStripeAccount</targetReference>
+                <targetReference>assign</targetReference>
             </connector>
             <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>
         <scheduledPaths>
             <name>callout_to_invoice_send</name>
             <connector>
-                <targetReference>getStripeAccountDelayed</targetReference>
+                <targetReference>send_Invoice</targetReference>
             </connector>
             <label>callout to invoice send</label>
             <offsetNumber>1</offsetNumber>

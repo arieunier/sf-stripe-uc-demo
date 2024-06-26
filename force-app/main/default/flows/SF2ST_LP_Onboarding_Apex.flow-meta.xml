@@ -4,7 +4,7 @@
         <name>LP_Onboarding</name>
         <label>LP Onboarding</label>
         <locationX>176</locationX>
-        <locationY>134</locationY>
+        <locationY>242</locationY>
         <actionName>lpOnbarding</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -14,16 +14,23 @@
         <inputParameters>
             <name>ids</name>
             <value>
-                <elementReference>recordId</elementReference>
+                <elementReference>apexParams</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>lpOnbarding</nameSegment>
         <outputParameters>
             <assignToReference>accountNumber</assignToReference>
             <name>output</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <environments>Default</environments>
+    <formulas>
+        <name>apexParams</name>
+        <dataType>String</dataType>
+        <expression>{!recordId} + &apos;,&apos; + {!getCurrentPersonAccount.Stripe_Account_Id__pc}</expression>
+    </formulas>
     <interviewLabel>SF {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SF2ST - LP Onboarding Apex</label>
     <processMetadataValues>
@@ -45,11 +52,32 @@
         </value>
     </processMetadataValues>
     <processType>Flow</processType>
+    <recordLookups>
+        <name>getCurrentPersonAccount</name>
+        <label>getCurrentPC</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>LP_Onboarding</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordUpdates>
         <name>updateAccount</name>
         <label>updateAccount</label>
         <locationX>176</locationX>
-        <locationY>242</locationY>
+        <locationY>350</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -70,7 +98,7 @@
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>LP_Onboarding</targetReference>
+            <targetReference>getCurrentPersonAccount</targetReference>
         </connector>
     </start>
     <status>Active</status>

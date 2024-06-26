@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Cast_Price</name>
         <label>Cast Price</label>
-        <locationX>226</locationX>
+        <locationX>248</locationX>
         <locationY>323</locationY>
         <actionName>stripeGC__v01_CastPrice</actionName>
         <actionType>apex</actionType>
@@ -47,7 +47,7 @@
     <decisions>
         <name>check_Result</name>
         <label>check Result</label>
-        <locationX>226</locationX>
+        <locationX>248</locationX>
         <locationY>539</locationY>
         <defaultConnectorLabel>No Product</defaultConnectorLabel>
         <rules>
@@ -103,7 +103,7 @@
     <recordCreates>
         <name>Create_Price</name>
         <label>Create Price</label>
-        <locationX>138</locationX>
+        <locationX>182</locationX>
         <locationY>863</locationY>
         <inputAssignments>
             <field>Currency__c</field>
@@ -136,6 +136,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Stripe_Account_Id__c</field>
+            <value>
+                <elementReference>$Record.stripeGC__Stripe_Account__r.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Stripe_Product__c</field>
             <value>
                 <elementReference>get_Related_Product.Id</elementReference>
@@ -153,7 +159,7 @@
     <recordLookups>
         <name>get_Related_Product</name>
         <label>get Related Product</label>
-        <locationX>226</locationX>
+        <locationX>248</locationX>
         <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -194,7 +200,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>100</locationX>
+        <locationX>122</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Cast_Price</targetReference>

@@ -4,7 +4,7 @@
         <name>createStripeIssuingCard</name>
         <label>createStripeIssuingCard</label>
         <locationX>176</locationX>
-        <locationY>134</locationY>
+        <locationY>242</locationY>
         <actionName>issuingOnboarding</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -14,13 +14,20 @@
         <inputParameters>
             <name>ids</name>
             <value>
-                <elementReference>recordId</elementReference>
+                <elementReference>apexAttributes</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>issuingOnboarding</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <environments>Default</environments>
+    <formulas>
+        <name>apexAttributes</name>
+        <dataType>String</dataType>
+        <expression>{!recordId} + &apos;,&apos; + {!getAccount.Stripe_Account_Id__pc}</expression>
+    </formulas>
     <interviewLabel>SF2ST - Issuing Card {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SF2ST - Stripe Issuing</label>
     <processMetadataValues>
@@ -42,11 +49,32 @@
         </value>
     </processMetadataValues>
     <processType>Flow</processType>
+    <recordLookups>
+        <name>getAccount</name>
+        <label>getAccount</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>createStripeIssuingCard</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <screens>
         <name>EndFlow</name>
         <label>EndFlow</label>
         <locationX>176</locationX>
-        <locationY>242</locationY>
+        <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -62,7 +90,7 @@
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>createStripeIssuingCard</targetReference>
+            <targetReference>getAccount</targetReference>
         </connector>
     </start>
     <status>Active</status>

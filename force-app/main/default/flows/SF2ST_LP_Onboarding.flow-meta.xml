@@ -35,7 +35,9 @@
                 <elementReference>formulaBankAccount</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__AgnosticInvocable</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>createToken</name>
@@ -60,7 +62,9 @@
                 <elementReference>getStripeAccountId.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_CreateTokens</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>POST_Accounts</name>
@@ -121,7 +125,9 @@
                 <stringValue>custom</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_CreateAccounts</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>retrieve_Customer_Mandate_GET_setup_intents</name>
@@ -146,7 +152,9 @@
                 <elementReference>getCurrentPersonAccount.Stripe_Customer_Id__pc</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_ListSetupIntents</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
@@ -496,7 +504,7 @@
             <targetReference>getStripeAccountId</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <variables>
         <name>AccountBankAccount</name>
         <apexClass>stripeGC__BankAccount</apexClass>

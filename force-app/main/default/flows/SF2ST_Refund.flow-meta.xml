@@ -4,14 +4,14 @@
         <name>refund_Customer</name>
         <label>refund Customer</label>
         <locationX>176</locationX>
-        <locationY>458</locationY>
+        <locationY>350</locationY>
         <actionName>stripeGC__v01_CreateRefunds</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
             <name>accountRecordId</name>
             <value>
-                <elementReference>getStripeAccount.Id</elementReference>
+                <elementReference>getcurrentRecord.Stripe_Account_Id__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -26,7 +26,9 @@
                 <elementReference>getcurrentRecord.Name</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>stripeGC__v01_CreateRefunds</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>60.0</apiVersion>
     <environments>Default</environments>
@@ -72,19 +74,6 @@
         <object>Stripe_Payment_Intent__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordLookups>
-        <name>getStripeAccount</name>
-        <label>get Stripe Account</label>
-        <locationX>176</locationX>
-        <locationY>350</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>refund_Customer</targetReference>
-        </connector>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>stripeGC__Stripe_Account__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <screens>
         <name>Enter_amount_to_refund</name>
         <label>Enter amount to refund</label>
@@ -94,7 +83,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>getStripeAccount</targetReference>
+            <targetReference>refund_Customer</targetReference>
         </connector>
         <fields>
             <name>dspText</name>
@@ -109,6 +98,7 @@
             </defaultValue>
             <fieldText>Amount in Cents to refund</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <scale>0</scale>
         </fields>
