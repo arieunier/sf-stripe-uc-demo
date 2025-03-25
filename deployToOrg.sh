@@ -20,7 +20,8 @@ echo "##### WARNING ######"
 read -p "------------- Please type enter to proceed with deployment" 
 
 echo "##### Installing the Universal Connector package ######"
-sf package install --package 04tRN0000000CPN --target-org  $DEVHUBALIAS --no-prompt
+#04tRN000001JGi1YAG --> 04tRN000003ZalFYAS
+sf package install --package 04tRN000003ZalFYAS --target-org  $DEVHUBALIAS --no-prompt
 echo "Type enter WHEN YOU RECEIVED the email from Salesforce saying the installation was successfull. It usually takes 5-10 min"
 read -p "------------- Finished, type enter to continue "
 
